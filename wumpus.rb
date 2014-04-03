@@ -4,7 +4,7 @@ require 'pry'
 
 class HuntTheWumpusConsoleUI
   def initialize
-    @cave_glyphs = { :unexplored => "?" }
+    @cave_glyphs = { :unexplored => "?", :player => "@" }
   end
 
   def build_cave_walls(size)
@@ -14,8 +14,8 @@ class HuntTheWumpusConsoleUI
   def build_cave_row(row)
     row_string = ""
 
-    (0..row.size-1).each do |col|
-      row_string += @cave_glyphs[row[col]]
+    row.each do |room|
+      row_string += @cave_glyphs[room]
     end  
 
     "*" + row_string + "*\n"
