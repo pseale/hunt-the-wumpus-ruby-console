@@ -1,13 +1,37 @@
-require_relative '../lib/HuntTheWumpus'
+require 'require_all'
+require_all 'lib'
 
 describe HuntTheWumpus do
-  # describe "Starting a new game of Hunt the Wumpus" do
-  #   it "creates something" do
-  #     true.should == true
-  #   end  
-  # end
+  describe "Attempting to start a new game with a cave size that is too small" do
+    it "errors out" do
+      expect { game = HuntTheWumpus.new(9) }.to raise_error(CaveTooSmallError)
+    end
+  end
 
-  it "should run rspec" do
-    true.should == true
+  describe "Attempting to start a new game with a cave size that is too large" do
+    it "errors out" do
+      expect { game = HuntTheWumpus.new(21) }.to raise_error(CaveTooLargeError)
+    end
+  end
+
+  describe "Starting a new game of Hunt the Wumpus" do
+
+    game = HuntTheWumpus.new(10)
+
+    it "starts the game" do
+      game.ongoing?.should == true
+    end
+
+    describe "Starting a game with a specific cave size" do
+      game = HuntTheWumpus.new(20)
+
+      it "Creates a cave of that size" do
+        rows = game.status.map
+        rows.size.should == 20
+        rows.each do |row|
+          row.size.should == 20
+        end
+      end
+    end
   end
 end
