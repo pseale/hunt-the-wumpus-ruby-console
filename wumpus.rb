@@ -4,7 +4,7 @@ require 'pry'
 
 class HuntTheWumpusConsoleUI
   def initialize
-    @cave_glyphs = { :unexplored => "?", :player => "@" }
+    @cave_glyphs = { :unexplored => "?", :player => "@", :entrance => "e", :empty => "." }
   end
 
   def build_cave_walls(size)
@@ -66,11 +66,13 @@ class HuntTheWumpusConsoleUI
       print ">"
       input = gets.chomp
 
-      case input
-      when /x|X/
+      case input.chomp.upcase
+      when "X"
         exit
       when "?"
         print_help
+      when "S"
+        game.receive_command(:move_south)
       else
         puts "Invalid command '#{input}'."
         puts ""

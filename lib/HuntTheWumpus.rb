@@ -17,7 +17,6 @@ class HuntTheWumpus
     place_player_at_entrance
   end
 
-
   def place_player_at_entrance
     (0..@cave.size-1).each do |row|
       (0..@cave.size-1).each do |col|
@@ -46,6 +45,11 @@ class HuntTheWumpus
       ui_cave << ui_row
     end
     ui_cave
+  end
+
+  def receive_command(command)
+    @explored_rooms << [@player_location.row, @player_location.col]
+    @player_location.row += 1
   end
 
   def status
