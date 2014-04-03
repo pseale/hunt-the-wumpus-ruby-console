@@ -20,7 +20,10 @@ class HuntTheWumpus
   def place_player_at_entrance
     (0..@cave.size-1).each do |row|
       (0..@cave.size-1).each do |col|
-        @player_location = OpenStruct.new(:row => row, :col => col) if @cave[row][col] == :entrance
+        if @cave[row][col] == :entrance
+          @player_location = OpenStruct.new(:row => row, :col => col) 
+          @explored_rooms << [row, col]
+        end
       end
     end
   end
@@ -48,8 +51,17 @@ class HuntTheWumpus
   end
 
   def receive_command(command)
+    case command
+    when :move_north
+      @player_location.row -= 1
+    when :move_south
+      @player_location.row += 1
+    when :move_west
+      @player_location.col -= 1
+    when :move_east
+      @player_location.col += 1
+    end      
     @explored_rooms << [@player_location.row, @player_location.col]
-    @player_location.row += 1
   end
 
   def status

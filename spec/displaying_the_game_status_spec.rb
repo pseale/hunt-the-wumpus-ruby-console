@@ -1,5 +1,6 @@
 require 'require_all'
 require_all 'lib'
+require 'pry'
 
 describe HuntTheWumpus do
   describe "Displaying the game status" do
