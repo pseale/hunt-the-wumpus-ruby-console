@@ -16,5 +16,14 @@ describe HuntTheWumpus do
     it "has the player character somewhere in the cave" do
       game.status.map.flatten.should include(:player)
     end
+
+    describe "At the beginning of the game" do
+      it "is completely unexplored" do
+        list_of_rooms = game.status.map.flatten.uniq
+        list_of_rooms.delete(:player)
+        list_of_rooms.size.should == 1
+        list_of_rooms[0].should == :unexplored
+      end
+    end
   end
 end
