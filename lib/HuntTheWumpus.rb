@@ -12,9 +12,11 @@ class HuntTheWumpus
     raise CaveTooSmallError if cave_size < 10
     raise CaveTooLargeError if cave_size > 20
 
+    @cave_size = cave_size
     @explored_rooms = []
     @cave = CaveGenerator.generate_a_cave(cave_size)
     place_player_at_entrance
+    @messages = [:you_enter_the_cave]
   end
 
   def place_player_at_entrance
@@ -52,20 +54,51 @@ class HuntTheWumpus
 
   def receive_command(command)
     case command
+    when :move_north, :move_south, :move_west, :move_east
+      move_result = attempt_to_move command
+      @explored_rooms << [@player_location.row, @player_location.col]
+    end
+  end
+
+  def attempt_to_move(move_command)
+    case move_command
     when :move_north
-      @player_location.row -= 1
+      move_direction = [-1, 0]
     when :move_south
-      @player_location.row += 1
+      move_direction = [1, 0]
     when :move_west
-      @player_location.col -= 1
+      move_direction = [0, -1]
     when :move_east
-      @player_location.col += 1
-    end      
-    @explored_rooms << [@player_location.row, @player_location.col]
+      move_direction = [0, 1]
+    end
+
+    if move_is_out_of_bounds?(move_direction)
+      @messages = [:ran_into_a_wall] 
+    else
+      @messages = [:you_moved]
+      @player_location.row += move_direction[0]
+      @player_location.col += move_direction[1]
+
+      room = @cave[@player_location.row][@player_location.col]
+
+      case room
+      when :gold
+        @messages << :you_see_gold
+      end
+    end
+  end
+
+  def move_is_out_of_bounds?(move_direction)
+    row = @player_location.row + move_direction[0]
+    col = @player_location.col + move_direction[1]
+
+    return true if (row < 0 || row >= @cave_size)
+    return true if (col < 0 || col >= @cave_size)
+    return false
   end
 
   def status
-    return OpenStruct.new(:map => build_cave_for_ui)
+    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages)
   end
 
   def ongoing?

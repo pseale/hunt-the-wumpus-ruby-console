@@ -14,6 +14,14 @@ class HuntTheWumpusConsoleUI
       :wumpus => "W",
       :pitfall => "p"
     }
+
+    @message_text = {
+      :you_enter_the_cave => "With much trepidation, you enter the cave. It is musty.",
+      :ran_into_a_wall => "You run into a wall!",
+      :you_moved => "You move swiftly and gracefully, like a swan.",
+      :you_see_gold => "You see gold strewn about the floor.",
+      nil => "error"
+    }
   end
 
   def build_cave_walls(size)
@@ -41,6 +49,9 @@ class HuntTheWumpusConsoleUI
 
   def print_game_status(status)
     puts build_string_from_map status.map
+    status.messages.each do |message|
+      puts @message_text[message]
+    end
   end
 
   def print_help

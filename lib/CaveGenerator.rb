@@ -19,7 +19,11 @@ class CaveGenerator
 
   @@template_map = {
     "." => :empty,
-    "e" => :entrance
+    "e" => :entrance,
+    "$" => :gold,
+    "t" => :weapon,
+    "W" => :wumpus,
+    "p" => :pitfall
   }
   def self.generate_a_cave_from_template
     rooms = []
