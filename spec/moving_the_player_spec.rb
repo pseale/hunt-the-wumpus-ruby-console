@@ -79,16 +79,67 @@ describe HuntTheWumpus do
 
       @game.receive_command(:move_south)
     end
-
+ 
     it "moves the player one spot to the south" do
       @game.status.map[1][0].should == :player
     end
-  end 
+
+    after :all do
+      CaveGenerator.reset_behavior_to_normal
+    end
+   end 
 
   describe "Moving the player west" do
-    it "moves the player one spot to the west"
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        .e........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+
+      @game.receive_command(:move_west)
+    end
+ 
+    it "moves the player one spot to the west" do
+      @game.status.map[0][0].should == :player
+    end
+
+    after :all do
+      CaveGenerator.reset_behavior_to_normal
+    end
   end 
+
   describe "Moving the player east" do
-    it "moves the player one spot to the east"
-  end 
+   before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+
+      @game.receive_command(:move_east)
+    end
+ 
+    it "moves the player one spot to the east" do
+      @game.status.map[0][1].should == :player
+    end
+
+    after :all do
+      CaveGenerator.reset_behavior_to_normal
+    end
+   end 
 end
