@@ -84,6 +84,8 @@ class HuntTheWumpus
       case room
       when :gold
         @messages << :you_see_gold
+      when :weapon
+        @messages << :you_see_a_weapon
       end
     end
   end

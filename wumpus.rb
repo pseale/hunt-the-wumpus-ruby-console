@@ -20,6 +20,7 @@ class HuntTheWumpusConsoleUI
       :ran_into_a_wall => "You run into a wall!",
       :you_moved => "You move swiftly and gracefully, like a swan.",
       :you_see_gold => "You see gold strewn about the floor.",
+      :you_see_a_weapon => "Before you is a shiny steel sword. It looks very sharp.",
       nil => "error"
     }
   end
