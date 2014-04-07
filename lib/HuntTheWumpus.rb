@@ -70,7 +70,7 @@ class HuntTheWumpus
 
     when :loot
       loot_result = attempt_to_loot
-      if :looted_gold
+      if loot_result == :looted_gold
         @points += 5
       end
 
@@ -78,8 +78,18 @@ class HuntTheWumpus
     end
   end
 
+  def clear_room
+    @cave[@player_location.row][@player_location.col] = :empty
+  end
+
   def attempt_to_loot
-    return :looted_gold
+    room = @cave[@player_location.row][@player_location.col]
+    if room == :gold
+      clear_room
+      return :looted_gold
+    else
+      return :you_failed_to_loot
+    end
   end
 
   def attempt_to_move(move_command)

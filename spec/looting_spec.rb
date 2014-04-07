@@ -4,6 +4,64 @@ require_all 'lib'
 require 'pry'
 
 describe HuntTheWumpus do
+  describe "Attempting to loot an empty room" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+      @game.receive_command(:move_south)
+
+      @game.receive_command(:loot)
+    end
+
+    it "should tell you you failed to loot" do
+      @game.status.messages.count.should == 1
+      @game.status.messages[0].should == :you_failed_to_loot
+    end
+
+    it "should not award any extra points" do
+      #1 point awarded earlier for exploring a room
+      @game.status.points.should == 1
+    end
+  end
+
+  describe "Attempting to loot the cave entrance" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+
+      @game.receive_command(:loot)
+    end
+
+    it "should tell you you failed to loot" do
+      @game.status.messages.count.should == 1
+      @game.status.messages[0].should == :you_failed_to_loot
+    end
+
+    it "should not award any extra points" do
+      @game.status.points.should == 0
+    end
+  end
+
   describe "Looting gold" do
     before :all do
       CaveGenerator.always_generate_this_hardcoded_cave("
@@ -49,7 +107,9 @@ describe HuntTheWumpus do
       @game.receive_command(:move_north)
     end
 
-    it "shows the looted room as empty" 
+    it "shows the looted room as empty" do
+      @game.status.map[1][0].should == :empty
+    end
   end
 
   describe "Looting a weapon when unarmed" do
