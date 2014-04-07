@@ -17,6 +17,7 @@ class HuntTheWumpus
     @points = 0
     @armed = false
     @messages = [:you_enter_the_cave]
+    apply_messages_for_location
   end
 
 
@@ -34,6 +35,12 @@ class HuntTheWumpus
 
       @messages << loot_result
     end
+
+    apply_messages_for_location
+  end
+
+  def apply_messages_for_location
+    @messages << :there_is_a_foul_odor if @map.wumpus_nearby?
   end
 
   def attempt_to_loot

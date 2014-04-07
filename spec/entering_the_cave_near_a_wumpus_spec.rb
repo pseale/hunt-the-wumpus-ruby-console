@@ -1,13 +1,14 @@
 require 'require_all'
 require_all 'lib'
 
-describe "Moving near a wumpus" do
-  before :all do
+require 'pry'
 
+describe "Entering the cave immediately next to a wumpus" do
+  before :all do
     CaveGenerator.always_generate_this_hardcoded_cave("
-      e.........
+      eW........
       ..........
-      W.........
+      ..........
       ..........
       ..........
       ..........
@@ -16,10 +17,10 @@ describe "Moving near a wumpus" do
       ..........
       ..........")
     @game = HuntTheWumpus.new(10)
-
-    @game.receive_command(:move_south)
   end
 
-  it "tells us there is a foul odor" do
+  it "should indicate there is a foul stench in the air" do
+    @game.status.messages.should include(:there_is_a_foul_odor)
   end
 end
+

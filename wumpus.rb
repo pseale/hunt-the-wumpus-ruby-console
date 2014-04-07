@@ -24,6 +24,7 @@ class HuntTheWumpusConsoleUI
       :looted_gold => "You stuff the gold coins into your pockets. The gold makes a satisfying, clinking noise as you walk.",
       :looted_weapon => "You grasp the sword by the hilt and pick it up, examining the sturdy craftsmanship and sharp edge. Yes, this will do.",
       :you_failed_to_loot => "There is nothing to loot.",
+      :there_is_a_foul_odor => "The air is thick with a powerful stench. You must be near a wumpus.",
       nil => "error"
     }
   end

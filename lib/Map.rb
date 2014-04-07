@@ -23,6 +23,10 @@ class Map
     row = @player_location.row + direction.row
     col = @player_location.col + direction.col
 
+    out_of_bounds? row, col
+  end
+
+  def out_of_bounds?(row, col)
     return true if (row < 0 || row >= @cave.size)
     return true if (col < 0 || col >= @cave.size)
     return false
@@ -63,5 +67,20 @@ class Map
     end
 
     return OpenStruct.new(:ran_into_a_wall => false, :room_is_newly_explored => room_is_newly_explored)
+  end
+
+  def wumpus_nearby?
+    nearby_rooms.include? :wumpus
+  end
+
+  def nearby_rooms
+    nearby_locations = [
+      current_location.move(Location.new(-1, 0)),
+      current_location.move(Location.new(1, 0)),
+      current_location.move(Location.new(0, -1)),
+      current_location.move(Location.new(0, 1))
+      ].select { |loc| !out_of_bounds? loc.row, loc.col }
+
+    nearby_locations.map { |location| @cave[location.row, location.col] }
   end
 end
