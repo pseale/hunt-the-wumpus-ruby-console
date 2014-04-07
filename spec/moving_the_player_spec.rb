@@ -33,99 +33,6 @@ describe HuntTheWumpus do
     end
   end
 
-  describe "Moving the player north" do
-    before :all do
-
-      CaveGenerator.always_generate_this_hardcoded_cave("
-        ..........
-        e.........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........")
-      @game = HuntTheWumpus.new(10)
-
-      @game.receive_command(:move_north)
-    end
-
-    it "moves the player one spot to the north" do
-      @game.status.map[0][0].should == :player
-    end
-  end
-
-  describe "Moving the player south" do
-    before :all do
-      CaveGenerator.always_generate_this_hardcoded_cave("
-        e.........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........")
-      @game = HuntTheWumpus.new(10)
-
-      @game.receive_command(:move_south)
-    end
- 
-    it "moves the player one spot to the south" do
-      @game.status.map[1][0].should == :player
-    end
-  end 
-
-  describe "Moving the player west" do
-    before :all do
-      CaveGenerator.always_generate_this_hardcoded_cave("
-        .e........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........")
-      @game = HuntTheWumpus.new(10)
-
-      @game.receive_command(:move_west)
-    end
- 
-    it "moves the player one spot to the west" do
-      @game.status.map[0][0].should == :player
-    end
-  end 
-
-  describe "Moving the player east" do
-   before :all do
-      CaveGenerator.always_generate_this_hardcoded_cave("
-        e.........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........")
-      @game = HuntTheWumpus.new(10)
-
-      @game.receive_command(:move_east)
-    end
- 
-    it "moves the player one spot to the east" do
-      @game.status.map[0][1].should == :player
-    end
-  end
-
   describe "Attempting to move into a wall" do
     before :all do
       CaveGenerator.always_generate_this_hardcoded_cave("
@@ -155,6 +62,10 @@ describe HuntTheWumpus do
     it "doesn't tell us we moved" do
       @game.status.messages.should_not include(:you_moved)
     end
+
+    it "does not award us points" do
+      @game.status.points.should == 0
+    end
   end 
 
   describe "Moving the player into a room with gold" do
@@ -181,6 +92,10 @@ describe HuntTheWumpus do
 
     it "tells you there is gold in this room" do
       @game.status.messages.should include(:you_see_gold)
+    end
+
+    it "does not award us points" do
+      @game.status.points.should == 0
     end
   end
 
@@ -209,9 +124,13 @@ describe HuntTheWumpus do
     it "tells you there is a weapon in this room" do
       @game.status.messages.should include(:you_see_a_weapon)
     end
+
+    it "does not award us points" do
+      @game.status.points.should == 0
+    end
   end
 
-  describe "Moving the player to an unexplored room" do
+  describe "Moving the player to an empty room" do
     before :all do
       CaveGenerator.always_generate_this_hardcoded_cave("
         e.........
@@ -229,11 +148,10 @@ describe HuntTheWumpus do
       @game.receive_command(:move_south)
     end
 
-    it "awards 1 point for exploring a new room" do
+    it "awards 1 point for exploring a new, empty room" do
       @game.status.points.should == 1
     end
   end
-
 
   describe "Moving the player to a previously explored room" do
     before :all do

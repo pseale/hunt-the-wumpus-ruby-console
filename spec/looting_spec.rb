@@ -29,8 +29,8 @@ describe HuntTheWumpus do
     end
 
     it "should not award any extra points" do
-      #1 point awarded earlier for exploring a room
-      @game.status.points.should == 1
+      #should have 1 point already for exploring an empty room
+      @game.status.points.should == 1 + 0
     end
   end
 
@@ -82,8 +82,7 @@ describe HuntTheWumpus do
     end
 
     it "awards 5 points" do
-      #exploring the room gives us 1 point separately
-      @game.status.points.should == 1 + 5
+      @game.status.points.should == 5
     end
   end
 
@@ -147,8 +146,7 @@ describe HuntTheWumpus do
     end
 
     it "awards 5 points" do
-      #already had 99 points for exploring every room
-      @game.status.points.should == 99 + 5
+      @game.status.points.should == 5
     end
 
     it "changes any weapon rooms to gold rooms" do

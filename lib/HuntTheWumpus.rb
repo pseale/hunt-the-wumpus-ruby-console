@@ -63,7 +63,9 @@ class HuntTheWumpus
       if move_result == :you_moved
         if @explored_rooms.none? {|room| room[0] == @player_location.row && room[1] == @player_location.col }
           @explored_rooms << [@player_location.row, @player_location.col]
-          @points += 1;
+          if @cave[@player_location.row][@player_location.col] == :empty
+            @points += 1;
+          end
         end
       end
 
