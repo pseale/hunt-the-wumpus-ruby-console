@@ -45,6 +45,7 @@ class HuntTheWumpus
   end
 
   def apply_messages_for_location
+    return if @game_over
     @messages << :there_is_a_foul_odor if @map.wumpus_nearby?
     @messages << :there_is_a_howling_wind if @map.pitfall_nearby?
   end
@@ -86,6 +87,9 @@ class HuntTheWumpus
         @messages << :you_see_gold
       when :weapon
         @messages << :you_see_a_weapon
+      when :pitfall
+        @messages << :you_fall
+        @game_over = true
       end
 
       if move_result.room_is_newly_explored && @map.current_room == :empty
