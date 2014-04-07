@@ -16,6 +16,7 @@ class HuntTheWumpus
     @map = Map.new(@cave)
     @scoreboard = Scoreboard.new
     @armed = false
+    @game_over = false
     @messages = [:you_enter_the_cave]
     apply_messages_for_location
   end
@@ -25,6 +26,10 @@ class HuntTheWumpus
     @messages = []
 
     case command
+    when :run
+      @game_over = true
+      @messages << :you_escape
+      return
     when :move_north, :move_south, :move_west, :move_east
       attempt_to_move command
     when :loot
@@ -93,7 +98,11 @@ class HuntTheWumpus
     StatusFormatter.format(@cave, @map, @messages, @scoreboard.points, @armed)
   end
 
+  def final_status
+    OpenStruct.new(:messages => Array.new(@messages), :points => @scoreboard.points)
+  end
+
   def ongoing?
-    true
+    !@game_over
   end
 end

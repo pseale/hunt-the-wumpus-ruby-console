@@ -26,6 +26,7 @@ class HuntTheWumpusConsoleUI
       :you_failed_to_loot => "There is nothing to loot.",
       :there_is_a_foul_odor => "The air is thick with a powerful stench. You must be near a wumpus.",
       :there_is_a_howling_wind => "The air gusts about you. Is there an opening in the walls or ceiling nearby? Or perhaps, a large pit in the floor?",
+      :you_escape => "You make a strategic withdrawal from the cave.",
       nil => "error"
     }
   end
@@ -76,8 +77,16 @@ class HuntTheWumpusConsoleUI
   X -- this is a hard exit out of the game. The game ends with no points awarded."  
   end
 
-  def run
+  def print_final_status(game)
+    status = game.final_status
+    status.messages.each do |message|
+      puts @message_text[message]
+    end
+    puts "*** GAME OVER ***"
+    puts "Final score: #{status.points} points"
+  end
 
+  def run
     puts "~~~~~~~ Hunt the Wumpus ~~~~~~"
     puts ""
     print "How large of a cave would you like to explore (between 10 and 20)? >"
@@ -90,7 +99,11 @@ class HuntTheWumpusConsoleUI
     puts ""
     game = HuntTheWumpus.new(cave_size)
 
+    run_game_loop game
+    print_final_status game
+  end
 
+  def run_game_loop(game)
     while (game.ongoing?) do
       print_game_status game.status
       print ">"
@@ -111,13 +124,15 @@ class HuntTheWumpusConsoleUI
         game.receive_command(:move_east)
       when "L"
         game.receive_command(:loot)
+      when "R"
+        game.receive_command(:run)
       else
         puts "Invalid command '#{input}'."
         puts ""
         print_help 
       end
     end
-  end
+  end    
 end
 
 HuntTheWumpusConsoleUI.new.run
