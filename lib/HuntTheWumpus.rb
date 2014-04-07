@@ -16,6 +16,7 @@ class HuntTheWumpus
     @explored_rooms = []
     @cave = CaveGenerator.generate_a_cave(cave_size)
     @points = 0
+    @armed = false
     place_player_at_entrance
     @messages = [:you_enter_the_cave]
   end
@@ -70,7 +71,7 @@ class HuntTheWumpus
 
     when :loot
       loot_result = attempt_to_loot
-      if loot_result == :looted_gold
+      if loot_result == :looted_gold || loot_result == :looted_weapon
         @points += 5
       end
 
@@ -87,6 +88,10 @@ class HuntTheWumpus
     if room == :gold
       clear_room
       return :looted_gold
+    elsif room == :weapon
+      clear_room
+      @armed = true
+      return :looted_weapon
     else
       return :you_failed_to_loot
     end
@@ -133,7 +138,7 @@ class HuntTheWumpus
   end
 
   def status
-    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages, :points => @points)
+    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages, :points => @points, :armed => @armed)
   end
 
   def ongoing?

@@ -22,6 +22,7 @@ class HuntTheWumpusConsoleUI
       :you_see_gold => "You see gold strewn about the floor.",
       :you_see_a_weapon => "Before you is a shiny steel sword. It looks very sharp.",
       :looted_gold => "You stuff the gold coins into your pockets. The gold makes a satisfying, clinking noise as you walk.",
+      :looted_weapon => "You grasp the sword by the hilt and pick it up, examining the sturdy craftsmanship and sharp edge. Yes, this will do.",
       :you_failed_to_loot => "There is nothing to loot.",
       nil => "error"
     }
@@ -57,7 +58,8 @@ class HuntTheWumpusConsoleUI
     end
 
     points_text = status.points == 1 ? "point" : "points";
-    print "[#{status.points} #{points_text}]"
+    armed_text = status.armed ? "ARMED|" : ""
+    print "[#{armed_text}#{status.points} #{points_text}]"
   end
 
   def print_help
