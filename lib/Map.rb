@@ -35,11 +35,11 @@ class Map
   end
 
   def current_room_is_unexplored?
-    @explored_rooms.none? {|room| room.row == @player_location.row && room.col == @player_location.col }
+    @explored_rooms.none? {|room| room == @player_location }
   end
 
   def explored?(row, col)
-    @explored_rooms.any? { |room| room.row == row && room.col == col }
+    @explored_rooms.include? Location.new(row, col)
   end
 
   def mark_room_as_explored
