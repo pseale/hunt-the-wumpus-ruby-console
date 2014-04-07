@@ -1,0 +1,29 @@
+require 'require_all'
+require_all 'lib'
+
+describe "Leaving a slain wumpus" do
+  before :all do
+    CaveGenerator.always_generate_this_hardcoded_cave("
+      e.........
+      t.........
+      W.........
+      ..........
+      ..........
+      ..........
+      ..........
+      ..........
+      ..........
+      ..........")
+    @game = HuntTheWumpus.new(10)
+    @game.receive_command(:move_south)
+    @game.receive_command(:loot)
+    @game.receive_command(:move_south)
+
+    @game.receive_command(:move_north)
+
+  end
+
+  it "shows the room with the slain wumpus as empty now" do
+    @game.status.map[2][0].should == :empty
+  end
+end

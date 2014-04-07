@@ -11,4 +11,8 @@ class Scoreboard
   def we_explored_an_empty_room
     @points += 1
   end
+
+  def we_slew_a_wumpus
+    @points += 10
+  end
 end

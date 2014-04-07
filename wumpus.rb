@@ -28,6 +28,8 @@ class HuntTheWumpusConsoleUI
       :there_is_a_howling_wind => "The air gusts about you. Is there an opening in the walls or ceiling nearby? Or perhaps, a large pit in the floor?",
       :you_escape => "You make a strategic withdrawal from the cave.",
       :you_fall => "OH NO! You fall into a pit and perish. RIP.",
+      :you_are_eaten => "OH NO! A wumpus rushes and easily overpowers your unarmed defenses. You are eaten. RIP.",
+      :you_slew_a_wumpus => "YES! A wumpus rushes at you, but with great skill, cunning, and your sharp blade, you prevail. You slay a wumpus!",
       nil => "error"
     }
   end

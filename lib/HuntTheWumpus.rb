@@ -83,6 +83,8 @@ class HuntTheWumpus
     else
       @messages << :you_moved
       case @map.current_room
+      when :empty
+        @scoreboard.we_explored_an_empty_room if move_result.room_is_newly_explored 
       when :gold
         @messages << :you_see_gold
       when :weapon
@@ -90,11 +92,17 @@ class HuntTheWumpus
       when :pitfall
         @messages << :you_fall
         @game_over = true
+      when :wumpus
+        if (@armed)
+          @messages << :you_slew_a_wumpus
+          @scoreboard.we_slew_a_wumpus
+          @cave.clear_room(@map.current_location)
+        else
+          @messages << :you_are_eaten
+          @game_over = true
+        end
       end
 
-      if move_result.room_is_newly_explored && @map.current_room == :empty
-        @scoreboard.we_explored_an_empty_room
-      end
     end
   end
 
