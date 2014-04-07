@@ -91,9 +91,18 @@ class HuntTheWumpus
     elsif room == :weapon
       clear_room
       @armed = true
+      change_weapon_rooms_to_gold
       return :looted_weapon
     else
       return :you_failed_to_loot
+    end
+  end
+
+  def change_weapon_rooms_to_gold
+    (0..@cave_size-1).each do |row|
+      (0..@cave_size-1).each do |col|
+        @cave[row][col] = :gold if @cave[row][col] == :weapon
+      end
     end
   end
 

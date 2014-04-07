@@ -115,17 +115,25 @@ describe HuntTheWumpus do
   describe "Looting a weapon when unarmed" do
     before :all do
       CaveGenerator.always_generate_this_hardcoded_cave("
-        e.........
-        t.........
-        t.........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........
-        ..........")
+        ettttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt
+        tttttttttt")
       @game = HuntTheWumpus.new(10)
+      #explore entire map so our test can "see" that there are no weapon rooms left.
+      10.times do 
+        9.times { @game.receive_command(:move_south) }
+        9.times { @game.receive_command(:move_north) }
+        @game.receive_command(:move_east)
+      end      
+      9.times { @game.receive_command(:move_east) }
+
       @game.receive_command(:move_south)
 
       @game.receive_command(:loot)
@@ -139,10 +147,14 @@ describe HuntTheWumpus do
     end
 
     it "awards 5 points" do
-      #already had 1 point for exploring the room
-      @game.status.points.should == 1 + 5
+      #already had 99 points for exploring every room
+      @game.status.points.should == 99 + 5
     end
 
-    it "changes any weapon rooms to gold rooms"
+    it "changes any weapon rooms to gold rooms" do
+      @game.status.map.each do |row|
+        row.should_not include(:weapon)
+      end
+    end
   end
 end
