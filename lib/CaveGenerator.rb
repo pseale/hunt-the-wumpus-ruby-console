@@ -33,7 +33,7 @@ class CaveGenerator
       rooms.unshift @@template_map[candidate_room] if keys.include? candidate_room
     end
 
-    create_cave_array rooms, Math.sqrt(rooms.size).to_i
+    Cave.new(rooms, Math.sqrt(rooms.size).to_i)
   end
 
   def self.generate_a_cave_randomly(size)
@@ -53,21 +53,7 @@ class CaveGenerator
 
     rooms.shuffle!
 
-    create_cave_array rooms, size
-  end
-
-  def self.create_cave_array(rooms, size)
-    cave = []
-    
-    size.times do
-      cave_row = []
-      size.times do
-        cave_row << rooms.pop
-      end
-      cave << cave_row
-    end
-
-    cave
+    Cave.new(rooms, size)
   end
 
   def self.create_cave_rooms(room_type, number_of_rooms)

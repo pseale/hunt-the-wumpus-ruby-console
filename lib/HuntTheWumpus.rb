@@ -12,7 +12,6 @@ class HuntTheWumpus
     raise CaveTooSmallError if cave_size < 10
     raise CaveTooLargeError if cave_size > 20
 
-    @cave_size = cave_size
     @explored_rooms = []
     @cave = CaveGenerator.generate_a_cave(cave_size)
     @points = 0
@@ -24,34 +23,12 @@ class HuntTheWumpus
   def place_player_at_entrance
     (0..@cave.size-1).each do |row|
       (0..@cave.size-1).each do |col|
-        if @cave[row][col] == :entrance
+        if @cave[row, col] == :entrance
           @player_location = OpenStruct.new(:row => row, :col => col) 
           @explored_rooms << [row, col]
         end
       end
     end
-  end
-
-  def explored?(row, col)
-    @explored_rooms.include?([row, col])
-  end
-
-  def build_cave_for_ui
-    ui_cave = []
-    (0..@cave.size-1).each do |row|
-      ui_row = []
-      (0..@cave.size-1).each do |col|
-        if @player_location.row == row && @player_location.col == col
-          ui_row << :player 
-        elsif explored?(row, col)
-          ui_row << @cave[row][col]
-        else
-          ui_row << :unexplored
-        end
-      end
-      ui_cave << ui_row
-    end
-    ui_cave
   end
 
   def receive_command(command)
@@ -63,7 +40,7 @@ class HuntTheWumpus
       if move_result == :you_moved
         if @explored_rooms.none? {|room| room[0] == @player_location.row && room[1] == @player_location.col }
           @explored_rooms << [@player_location.row, @player_location.col]
-          if @cave[@player_location.row][@player_location.col] == :empty
+          if @cave[@player_location.row, @player_location.col] == :empty
             @points += 1;
           end
         end
@@ -81,30 +58,18 @@ class HuntTheWumpus
     end
   end
 
-  def clear_room
-    @cave[@player_location.row][@player_location.col] = :empty
-  end
-
   def attempt_to_loot
-    room = @cave[@player_location.row][@player_location.col]
+    room = @cave[@player_location.row, @player_location.col]
     if room == :gold
-      clear_room
+      @cave.clear_room(@player_location)
       return :looted_gold
     elsif room == :weapon
-      clear_room
+      @cave.clear_room(@player_location)
       @armed = true
-      change_weapon_rooms_to_gold
+      @cave.change_weapon_rooms_to_gold
       return :looted_weapon
     else
       return :you_failed_to_loot
-    end
-  end
-
-  def change_weapon_rooms_to_gold
-    (0..@cave_size-1).each do |row|
-      (0..@cave_size-1).each do |col|
-        @cave[row][col] = :gold if @cave[row][col] == :weapon
-      end
     end
   end
 
@@ -126,7 +91,7 @@ class HuntTheWumpus
       @player_location.row += move_direction[0]
       @player_location.col += move_direction[1]
 
-      room = @cave[@player_location.row][@player_location.col]
+      room = @cave[@player_location.row, @player_location.col]
 
       case room
       when :gold
@@ -143,13 +108,13 @@ class HuntTheWumpus
     row = @player_location.row + move_direction[0]
     col = @player_location.col + move_direction[1]
 
-    return true if (row < 0 || row >= @cave_size)
-    return true if (col < 0 || col >= @cave_size)
+    return true if (row < 0 || row >= @cave.size)
+    return true if (col < 0 || col >= @cave.size)
     return false
   end
 
   def status
-    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages, :points => @points, :armed => @armed)
+    StatusFormatter.format(@cave, @player_location, @explored_rooms, @messages, @points, @armed)
   end
 
   def ongoing?
