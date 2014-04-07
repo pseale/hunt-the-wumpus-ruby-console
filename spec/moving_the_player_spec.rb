@@ -31,10 +31,6 @@ describe HuntTheWumpus do
     it "tells you you moved" do
       @game.status.messages.should include(:you_moved)
     end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
-    end
   end
 
   describe "Moving the player north" do
@@ -59,10 +55,6 @@ describe HuntTheWumpus do
     it "moves the player one spot to the north" do
       @game.status.map[0][0].should == :player
     end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
-    end
   end
 
   describe "Moving the player south" do
@@ -86,11 +78,7 @@ describe HuntTheWumpus do
     it "moves the player one spot to the south" do
       @game.status.map[1][0].should == :player
     end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
-    end
-   end 
+  end 
 
   describe "Moving the player west" do
     before :all do
@@ -112,10 +100,6 @@ describe HuntTheWumpus do
  
     it "moves the player one spot to the west" do
       @game.status.map[0][0].should == :player
-    end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
     end
   end 
 
@@ -139,10 +123,6 @@ describe HuntTheWumpus do
  
     it "moves the player one spot to the east" do
       @game.status.map[0][1].should == :player
-    end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
     end
   end
 
@@ -175,10 +155,6 @@ describe HuntTheWumpus do
     it "doesn't tell us we moved" do
       @game.status.messages.should_not include(:you_moved)
     end
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
-    end
   end 
 
   describe "Moving the player into a room with gold" do
@@ -205,11 +181,6 @@ describe HuntTheWumpus do
 
     it "tells you there is gold in this room" do
       @game.status.messages.should include(:you_see_gold)
-    end
-
-
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
     end
   end
 
@@ -238,9 +209,54 @@ describe HuntTheWumpus do
     it "tells you there is a weapon in this room" do
       @game.status.messages.should include(:you_see_a_weapon)
     end
+  end
 
-    after :all do
-      CaveGenerator.reset_behavior_to_normal
+  describe "Moving the player to an unexplored room" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+
+      @game.receive_command(:move_south)
+    end
+
+    it "awards 1 point for exploring a new room" do
+      @game.status.points.should == 1
+    end
+  end
+
+
+  describe "Moving the player to a previously explored room" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+      @game.receive_command(:move_south)
+      @game.receive_command(:move_north)
+
+      @game.receive_command(:move_south)
+    end
+
+    it "does not award any extra points" do
+      @game.status.points.should == 1
     end
   end
 end

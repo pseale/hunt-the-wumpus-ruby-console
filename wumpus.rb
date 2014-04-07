@@ -21,6 +21,7 @@ class HuntTheWumpusConsoleUI
       :you_moved => "You move swiftly and gracefully, like a swan.",
       :you_see_gold => "You see gold strewn about the floor.",
       :you_see_a_weapon => "Before you is a shiny steel sword. It looks very sharp.",
+      :looted_gold => "You stuff the gold coins into your pockets. The gold makes a satisfying, clinking noise as you walk.",
       nil => "error"
     }
   end
@@ -100,6 +101,8 @@ class HuntTheWumpusConsoleUI
         game.receive_command(:move_west)
       when "E"
         game.receive_command(:move_east)
+      when "L"
+        game.receive_command(:loot)
       else
         puts "Invalid command '#{input}'."
         puts ""

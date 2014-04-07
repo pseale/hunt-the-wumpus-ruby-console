@@ -15,6 +15,7 @@ class HuntTheWumpus
     @cave_size = cave_size
     @explored_rooms = []
     @cave = CaveGenerator.generate_a_cave(cave_size)
+    @points = 0
     place_player_at_entrance
     @messages = [:you_enter_the_cave]
   end
@@ -53,11 +54,32 @@ class HuntTheWumpus
   end
 
   def receive_command(command)
+    @messages = []
+
     case command
     when :move_north, :move_south, :move_west, :move_east
       move_result = attempt_to_move command
-      @explored_rooms << [@player_location.row, @player_location.col]
+      if move_result == :you_moved
+        if @explored_rooms.none? {|room| room[0] == @player_location.row && room[1] == @player_location.col }
+          @explored_rooms << [@player_location.row, @player_location.col]
+          @points += 1;
+        end
+      end
+
+      @messages << move_result
+
+    when :loot
+      loot_result = attempt_to_loot
+      if :looted_gold
+        @points += 5
+      end
+
+      @messages << loot_result
     end
+  end
+
+  def attempt_to_loot
+    return :looted_gold
   end
 
   def attempt_to_move(move_command)
@@ -73,9 +95,8 @@ class HuntTheWumpus
     end
 
     if move_is_out_of_bounds?(move_direction)
-      @messages = [:ran_into_a_wall] 
+      return :ran_into_a_wall
     else
-      @messages = [:you_moved]
       @player_location.row += move_direction[0]
       @player_location.col += move_direction[1]
 
@@ -87,6 +108,8 @@ class HuntTheWumpus
       when :weapon
         @messages << :you_see_a_weapon
       end
+
+      return :you_moved
     end
   end
 
@@ -100,7 +123,7 @@ class HuntTheWumpus
   end
 
   def status
-    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages)
+    return OpenStruct.new(:map => build_cave_for_ui, :messages => @messages, :points => @points)
   end
 
   def ongoing?

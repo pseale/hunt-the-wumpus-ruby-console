@@ -1,0 +1,59 @@
+require 'require_all'
+require_all 'lib'
+
+require 'pry'
+
+describe HuntTheWumpus do
+  describe "Looting gold" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        $.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+      @game.receive_command(:move_south)
+
+      @game.receive_command(:loot)
+    end
+
+    it "awards 5 points" do
+      #exploring the room gives us 1 point separately
+      @game.status.points.should == 1 + 5
+    end
+  end
+
+  describe "Moving away from a looted room" do
+    before :all do
+      CaveGenerator.always_generate_this_hardcoded_cave("
+        e.........
+        $.........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........")
+      @game = HuntTheWumpus.new(10)
+      @game.receive_command(:move_south)
+      @game.receive_command(:loot)
+
+      @game.receive_command(:move_north)
+    end
+
+    it "shows the looted room as empty" 
+  end
+
+  describe "Looting a weapon when unarmed" do
+    it "arms you with the weapon"
+    it "changes any weapon rooms to gold rooms"
+  end
+end

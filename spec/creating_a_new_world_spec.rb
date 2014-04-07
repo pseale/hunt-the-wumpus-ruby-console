@@ -15,22 +15,25 @@ describe HuntTheWumpus do
   end
 
   describe "Starting a new game of Hunt the Wumpus" do
-
-    game = HuntTheWumpus.new(10)
-
-    it "starts the game" do
-      game.ongoing?.should == true
+    before :each do
+      @game = HuntTheWumpus.new(10)
     end
 
-    describe "Starting a game with a specific cave size" do
-      game = HuntTheWumpus.new(20)
+    it "starts the game" do
+      @game.ongoing?.should == true
+    end
+  end
+  
+  describe "Starting a game with a specific cave size" do
+    before :each do
+      @game = HuntTheWumpus.new(20)
+    end
 
-      it "Creates a cave of that size" do
-        rows = game.status.map
-        rows.size.should == 20
-        rows.each do |row|
-          row.size.should == 20
-        end
+    it "Creates a cave of that size" do
+      rows = @game.status.map
+      rows.size.should == 20
+      rows.each do |row|
+        row.size.should == 20
       end
     end
   end
