@@ -25,18 +25,7 @@ class HuntTheWumpus
 
     case command
     when :move_north, :move_south, :move_west, :move_east
-      move_result = attempt_to_move command
-      if move_result == :you_moved
-        if @map.current_room_is_unexplored?
-          @map.mark_room_as_explored
-          if @map.current_room == :empty
-            @points += 1;
-          end
-        end
-      end
-
-      @messages << move_result
-
+      attempt_to_move command
     when :loot
       loot_result = attempt_to_loot
       if loot_result == :looted_gold || loot_result == :looted_weapon
@@ -64,20 +53,21 @@ class HuntTheWumpus
   def attempt_to_move(move_command)
     case move_command
     when :move_north
-      move_direction = Location.new(-1, 0)
+      direction = Location.new(-1, 0)
     when :move_south
-      move_direction = Location.new(1, 0)
+      direction = Location.new(1, 0)
     when :move_west
-      move_direction = Location.new(0, -1)
+      direction = Location.new(0, -1)
     when :move_east
-      move_direction = Location.new(0, 1)
+      direction = Location.new(0, 1)
     end
 
-    if @map.move_is_out_of_bounds?(move_direction)
-      return :ran_into_a_wall
-    else
-      @map.move_player(move_direction)
+    move_result = @map.attempt_to_move(direction)
 
+    if move_result.ran_into_a_wall
+      @messages << :ran_into_a_wall
+    else
+      @messages << :you_moved
       case @map.current_room
       when :gold
         @messages << :you_see_gold
@@ -85,7 +75,9 @@ class HuntTheWumpus
         @messages << :you_see_a_weapon
       end
 
-      return :you_moved
+      if move_result.room_is_newly_explored && @map.current_room == :empty
+        @points += 1;
+      end
     end
   end
 

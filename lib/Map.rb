@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class Map
   def initialize(cave)
     @cave = cave
@@ -44,5 +46,22 @@ class Map
 
   def mark_room_as_explored
     @explored_rooms << current_location
+  end
+
+  def attempt_to_move(direction)
+    if move_is_out_of_bounds?(direction)
+      return OpenStruct.new(:ran_into_a_wall => true, :room_is_newly_explored => false)
+    else
+      move_player(direction)
+    end
+
+    room_is_newly_explored = false
+
+    if current_room_is_unexplored?
+      mark_room_as_explored
+      room_is_newly_explored = true
+    end
+
+    return OpenStruct.new(:ran_into_a_wall => false, :room_is_newly_explored => room_is_newly_explored)
   end
 end
