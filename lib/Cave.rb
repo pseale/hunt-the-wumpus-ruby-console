@@ -29,5 +29,15 @@ class Cave
       end
     end
   end
+
+  def get_entrance_location
+    (0..@size-1).each do |row|
+      (0..@size-1).each do |col|
+        if @cave_rows[row][col] == :entrance
+          return Location.new(row, col)
+        end
+      end
+    end
+  end
 end
 

@@ -12,24 +12,13 @@ class HuntTheWumpus
     raise CaveTooSmallError if cave_size < 10
     raise CaveTooLargeError if cave_size > 20
 
-    @explored_rooms = []
     @cave = CaveGenerator.generate_a_cave(cave_size)
+    @map = Map.new(@cave)
     @points = 0
     @armed = false
-    place_player_at_entrance
     @messages = [:you_enter_the_cave]
   end
 
-  def place_player_at_entrance
-    (0..@cave.size-1).each do |row|
-      (0..@cave.size-1).each do |col|
-        if @cave[row, col] == :entrance
-          @player_location = OpenStruct.new(:row => row, :col => col) 
-          @explored_rooms << [row, col]
-        end
-      end
-    end
-  end
 
   def receive_command(command)
     @messages = []
@@ -38,9 +27,9 @@ class HuntTheWumpus
     when :move_north, :move_south, :move_west, :move_east
       move_result = attempt_to_move command
       if move_result == :you_moved
-        if @explored_rooms.none? {|room| room[0] == @player_location.row && room[1] == @player_location.col }
-          @explored_rooms << [@player_location.row, @player_location.col]
-          if @cave[@player_location.row, @player_location.col] == :empty
+        if @map.current_room_is_unexplored?
+          @map.mark_room_as_explored
+          if @map.current_room == :empty
             @points += 1;
           end
         end
@@ -59,12 +48,11 @@ class HuntTheWumpus
   end
 
   def attempt_to_loot
-    room = @cave[@player_location.row, @player_location.col]
-    if room == :gold
-      @cave.clear_room(@player_location)
+    if @map.current_room == :gold
+      @cave.clear_room(@map.current_location)
       return :looted_gold
-    elsif room == :weapon
-      @cave.clear_room(@player_location)
+    elsif @map.current_room == :weapon
+      @cave.clear_room(@map.current_location)
       @armed = true
       @cave.change_weapon_rooms_to_gold
       return :looted_weapon
@@ -76,24 +64,21 @@ class HuntTheWumpus
   def attempt_to_move(move_command)
     case move_command
     when :move_north
-      move_direction = [-1, 0]
+      move_direction = Location.new(-1, 0)
     when :move_south
-      move_direction = [1, 0]
+      move_direction = Location.new(1, 0)
     when :move_west
-      move_direction = [0, -1]
+      move_direction = Location.new(0, -1)
     when :move_east
-      move_direction = [0, 1]
+      move_direction = Location.new(0, 1)
     end
 
-    if move_is_out_of_bounds?(move_direction)
+    if @map.move_is_out_of_bounds?(move_direction)
       return :ran_into_a_wall
     else
-      @player_location.row += move_direction[0]
-      @player_location.col += move_direction[1]
+      @map.move_player(move_direction)
 
-      room = @cave[@player_location.row, @player_location.col]
-
-      case room
+      case @map.current_room
       when :gold
         @messages << :you_see_gold
       when :weapon
@@ -104,17 +89,8 @@ class HuntTheWumpus
     end
   end
 
-  def move_is_out_of_bounds?(move_direction)
-    row = @player_location.row + move_direction[0]
-    col = @player_location.col + move_direction[1]
-
-    return true if (row < 0 || row >= @cave.size)
-    return true if (col < 0 || col >= @cave.size)
-    return false
-  end
-
   def status
-    StatusFormatter.format(@cave, @player_location, @explored_rooms, @messages, @points, @armed)
+    StatusFormatter.format(@cave, @map, @messages, @points, @armed)
   end
 
   def ongoing?
