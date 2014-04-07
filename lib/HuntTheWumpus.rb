@@ -14,7 +14,7 @@ class HuntTheWumpus
 
     @cave = CaveGenerator.generate_a_cave(cave_size)
     @map = Map.new(@cave)
-    @points = 0
+    @scoreboard = Scoreboard.new
     @armed = false
     @messages = [:you_enter_the_cave]
     apply_messages_for_location
@@ -30,7 +30,7 @@ class HuntTheWumpus
     when :loot
       loot_result = attempt_to_loot
       if loot_result == :looted_gold || loot_result == :looted_weapon
-        @points += 5
+        @scoreboard.we_looted
       end
 
       @messages << loot_result
@@ -83,13 +83,13 @@ class HuntTheWumpus
       end
 
       if move_result.room_is_newly_explored && @map.current_room == :empty
-        @points += 1;
+        @scoreboard.we_explored_an_empty_room
       end
     end
   end
 
   def status
-    StatusFormatter.format(@cave, @map, @messages, @points, @armed)
+    StatusFormatter.format(@cave, @map, @messages, @scoreboard.points, @armed)
   end
 
   def ongoing?
