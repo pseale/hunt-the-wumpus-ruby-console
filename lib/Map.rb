@@ -73,6 +73,10 @@ class Map
     nearby_rooms.include? :wumpus
   end
 
+  def pitfall_nearby?
+    nearby_rooms.include? :pitfall
+  end
+
   def nearby_rooms
     nearby_locations = [
       current_location.move(Location.new(-1, 0)),

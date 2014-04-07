@@ -25,6 +25,7 @@ class HuntTheWumpusConsoleUI
       :looted_weapon => "You grasp the sword by the hilt and pick it up, examining the sturdy craftsmanship and sharp edge. Yes, this will do.",
       :you_failed_to_loot => "There is nothing to loot.",
       :there_is_a_foul_odor => "The air is thick with a powerful stench. You must be near a wumpus.",
+      :there_is_a_howling_wind => "The air gusts about you. Is there an opening in the walls or ceiling nearby? Or perhaps, a large pit in the floor?",
       nil => "error"
     }
   end

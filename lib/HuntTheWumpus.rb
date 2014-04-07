@@ -41,6 +41,7 @@ class HuntTheWumpus
 
   def apply_messages_for_location
     @messages << :there_is_a_foul_odor if @map.wumpus_nearby?
+    @messages << :there_is_a_howling_wind if @map.pitfall_nearby?
   end
 
   def attempt_to_loot
