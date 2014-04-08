@@ -1,7 +1,7 @@
 require 'require_all'
 require_all 'lib'
 
-describe "Moving near a wumpus" do
+describe "Moving near a pitfall" do
   before :all do
 
     CaveGenerator.always_generate_this_hardcoded_cave("

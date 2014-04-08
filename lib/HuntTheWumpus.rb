@@ -6,6 +6,7 @@ require 'pry'
 
 class CaveTooSmallError < StandardError; end
 class CaveTooLargeError < StandardError; end
+class InvalidCommandError < StandardError; end
 
 class HuntTheWumpus
   def initialize(cave_size)
@@ -37,8 +38,9 @@ class HuntTheWumpus
       if loot_result == :looted_gold || loot_result == :looted_weapon
         @scoreboard.we_looted
       end
-
       @messages << loot_result
+    else
+      raise InvalidCommandError
     end
 
     apply_messages_for_location
@@ -93,7 +95,7 @@ class HuntTheWumpus
         @messages << :you_fall
         @game_over = true
       when :wumpus
-        if (@armed)
+        if @armed
           @messages << :you_slew_a_wumpus
           @scoreboard.we_slew_a_wumpus
           @cave.clear_room(@map.current_location)
