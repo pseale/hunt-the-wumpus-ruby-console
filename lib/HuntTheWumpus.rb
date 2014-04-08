@@ -21,7 +21,6 @@ class HuntTheWumpus
     apply_messages_for_location
   end
 
-
   def receive_command(command)
     @messages = []
 
@@ -33,11 +32,7 @@ class HuntTheWumpus
     when :move_north, :move_south, :move_west, :move_east
       attempt_to_move command
     when :loot
-      loot_result = attempt_to_loot
-      if loot_result == :looted_gold || loot_result == :looted_weapon
-        @scoreboard.we_looted
-      end
-      @messages << loot_result
+      attempt_to_loot
     else
       raise InvalidCommandError
     end
@@ -51,17 +46,27 @@ class HuntTheWumpus
     @messages << :there_is_a_howling_wind if @map.pitfall_nearby?
   end
 
+  def loot_gold
+    @cave.clear_room(@map.current_location)
+    @scoreboard.we_looted
+    @messages << :looted_gold
+  end
+
+  def loot_weapon
+    @cave.clear_room(@map.current_location)
+    @scoreboard.we_looted
+    @armed = true
+    @cave.change_weapon_rooms_to_gold
+    @messages << :looted_weapon
+  end
+
   def attempt_to_loot
     if @map.current_room == :gold
-      @cave.clear_room(@map.current_location)
-      return :looted_gold
+      loot_gold
     elsif @map.current_room == :weapon
-      @cave.clear_room(@map.current_location)
-      @armed = true
-      @cave.change_weapon_rooms_to_gold
-      return :looted_weapon
+      loot_weapon
     else
-      return :you_failed_to_loot
+      @messages << :you_failed_to_loot
     end
   end
 
@@ -108,11 +113,11 @@ class HuntTheWumpus
   end
 
   def status
-    StatusFormatter.format(@cave, @map, @messages, @scoreboard.points, @armed)
+    StatusFormatter.format_status(@cave, @map, @messages, @scoreboard, @armed)
   end
 
   def final_status
-    OpenStruct.new(:messages => Array.new(@messages), :points => @scoreboard.points)
+    StatusFormatter.format_final_status(@messages, @scoreboard)
   end
 
   def ongoing?

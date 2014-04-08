@@ -1,14 +1,21 @@
 require 'ostruct'
 
 class StatusFormatter
-  def self.format(cave, map, messages, points, armed)
-    OpenStruct.new(:map => build_cave_for_ui(cave, map), 
-      :messages => Array.new(messages), 
-      :points => points, 
+  def self.format_status(cave, map, messages, scoreboard, armed)
+    OpenStruct.new(
+      :map => build_cave_for_ui(cave, map),
+      :messages => Array.new(messages),
+      :points => scoreboard.points,
       :armed => armed
       )
   end
 
+  def self.format_final_status(messages, scoreboard)
+    OpenStruct.new(
+      :messages => Array.new(messages), 
+      :points => scoreboard.points
+      )
+  end
 
   def self.build_cave_for_ui(cave, map)
     ui_cave = []
