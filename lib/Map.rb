@@ -83,8 +83,10 @@ class Map
       current_location.move(Location.new(1, 0)),
       current_location.move(Location.new(0, -1)),
       current_location.move(Location.new(0, 1))
-      ].select { |loc| !out_of_bounds? loc.row, loc.col }
+      ]
 
-    nearby_locations.map { |location| @cave[location.row, location.col] }
+    in_bounds = nearby_locations.select { |loc| !out_of_bounds? loc.row, loc.col }
+
+    in_bounds.map { |location| @cave[location.row, location.col] }
   end
 end

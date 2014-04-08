@@ -25,6 +25,7 @@ class CaveGenerator
     "W" => :wumpus,
     "p" => :pitfall
   }
+  
   def self.generate_a_cave_from_template
     rooms = []
     keys = @@template_map.keys

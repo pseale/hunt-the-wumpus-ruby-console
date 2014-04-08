@@ -108,7 +108,6 @@ class HuntTheWumpus
           @game_over = true
         end
       end
-
     end
   end
 
