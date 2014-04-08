@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Moving the player north" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       .
       e")
 
@@ -18,7 +18,7 @@ end
 
 describe "Moving the player south" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:move_south)
   end
@@ -30,7 +30,7 @@ end
 
 describe "Moving the player west" do
   before :all do
-    @game = Context.create_game_with_cave(".e")
+    @game = ObjectMother.create_game_with_cave(".e")
 
     @game.receive_command(:move_west)
   end
@@ -42,7 +42,7 @@ end
 
 describe "Moving the player east" do
  before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:move_east)
   end

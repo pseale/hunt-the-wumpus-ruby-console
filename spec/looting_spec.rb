@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Attempting to loot an empty room" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
     @game.receive_command(:move_south)
 
     @game.receive_command(:loot)
@@ -23,7 +23,7 @@ end
 
 describe "Attempting to loot the cave entrance" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:loot)
   end
@@ -40,7 +40,7 @@ end
 
 describe "Looting gold" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       e
       $")
     @game.receive_command(:move_south)
@@ -55,7 +55,7 @@ end
 
 describe "Moving away from a looted room" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       e
       $")
     @game.receive_command(:move_south)
@@ -71,7 +71,7 @@ end
 
 describe "Looting a weapon when unarmed" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       ettttttttt
       tttttttttt
       tttttttttt

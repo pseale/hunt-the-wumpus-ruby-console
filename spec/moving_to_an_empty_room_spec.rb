@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Moving the player to an empty room" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:move_south)
   end

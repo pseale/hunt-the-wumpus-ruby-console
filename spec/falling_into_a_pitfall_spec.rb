@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Falling into a pitfall" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       e
       p")
 

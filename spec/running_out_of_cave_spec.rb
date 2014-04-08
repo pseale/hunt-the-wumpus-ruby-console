@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Running out of the cave to safety" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:run)
   end

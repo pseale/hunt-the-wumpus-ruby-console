@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Moving the player" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:move_south)
   end
@@ -22,7 +22,7 @@ end
 
 describe "Attempting to move into a wall" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
 
     @game.receive_command(:move_west)
   end
@@ -46,7 +46,7 @@ end
 
 describe "Moving the player to a previously explored room" do
   before :all do
-    @game = Context.create_game_with_empty_cave
+    @game = ObjectMother.create_game_with_empty_cave
     @game.receive_command(:move_south)
     @game.receive_command(:move_north)
 

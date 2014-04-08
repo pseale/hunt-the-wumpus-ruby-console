@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Moving near a wumpus" do
   before :all do
-    @game = Context.create_game_with_cave("
+    @game = ObjectMother.create_game_with_cave("
       e
       .
       W")

@@ -4,7 +4,7 @@ require_all 'lib'
 
 describe "Entering the cave immediately next to a wumpus" do
   before :all do
-    @game = Context.create_game_with_cave("eW")
+    @game = ObjectMother.create_game_with_cave("eW")
   end
 
   it "should indicate there is a foul stench in the air" do

@@ -3,7 +3,7 @@ require_all 'lib'
 
 SIZE = 10
 
-class Context
+class ObjectMother
   def self.create_game_with_empty_cave
     create_game_with_cave ""
   end
