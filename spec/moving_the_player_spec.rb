@@ -1,8 +1,6 @@
 require 'require_all'
 require_all 'lib'
 
-require 'pry'
-
 describe "Moving the player" do
   before :all do
     CaveGenerator.always_generate_this_hardcoded_cave("

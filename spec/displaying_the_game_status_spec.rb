@@ -1,6 +1,5 @@
 require 'require_all'
 require_all 'lib'
-require 'pry'
 
 describe "Displaying the game status" do
   before :each do

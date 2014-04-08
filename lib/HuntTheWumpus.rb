@@ -2,7 +2,6 @@ require 'require_all'
 require_all 'lib'
 
 require 'ostruct'
-require 'pry'
 
 class CaveTooSmallError < StandardError; end
 class CaveTooLargeError < StandardError; end
