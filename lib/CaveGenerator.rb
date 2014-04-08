@@ -17,6 +17,10 @@ class CaveGenerator
     end
   end
 
+  def self.template_map
+    @@template_map
+  end
+
   @@template_map = {
     "." => :empty,
     "e" => :entrance,

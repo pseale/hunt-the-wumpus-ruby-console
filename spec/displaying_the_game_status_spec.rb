@@ -1,3 +1,4 @@
+require_relative 'spec_helper'
 require 'require_all'
 require_all 'lib'
 
@@ -6,7 +7,7 @@ describe "Displaying the game status" do
     @game = HuntTheWumpus.new(10)
   end
 
-  it "creates a cave" do
+  it "displays a cave" do
     rows = @game.status.map
     rows.size.should == 10
     rows.each do |row|

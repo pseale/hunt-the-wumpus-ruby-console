@@ -1,3 +1,4 @@
+require_relative 'spec_helper'
 require 'require_all'
 require_all 'lib'
 
