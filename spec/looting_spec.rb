@@ -88,8 +88,10 @@ describe "Looting a weapon when unarmed" do
       9.times { @game.receive_command(:move_north) }
       @game.receive_command(:move_east)
     end      
-    9.times { @game.receive_command(:move_east) }
+    #move back to entrance
+    9.times { @game.receive_command(:move_west) }
 
+    #move to a weapon room
     @game.receive_command(:move_south)
 
     @game.receive_command(:loot)
