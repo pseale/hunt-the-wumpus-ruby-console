@@ -1,6 +1,19 @@
 class CaveGenerator
   @@cave_layout_string = nil
 
+  def self.template_map
+    @@template_map
+  end
+
+  @@template_map = {
+    "." => :empty,
+    "e" => :entrance,
+    "$" => :gold,
+    "t" => :weapon,
+    "W" => :wumpus,
+    "p" => :pitfall
+  }
+  
   def self.always_generate_this_hardcoded_cave(cave_layout_string)
     @@cave_layout_string = cave_layout_string
   end
@@ -17,18 +30,7 @@ class CaveGenerator
     end
   end
 
-  def self.template_map
-    @@template_map
-  end
-
-  @@template_map = {
-    "." => :empty,
-    "e" => :entrance,
-    "$" => :gold,
-    "t" => :weapon,
-    "W" => :wumpus,
-    "p" => :pitfall
-  }
+  private
   
   def self.generate_a_cave_from_template
     rooms = []

@@ -17,6 +17,8 @@ class StatusFormatter
       )
   end
 
+  private
+  
   def self.build_cave_for_ui(cave, map)
     ui_cave = []
     (0..cave.size-1).each do |row|

@@ -18,6 +18,8 @@ class ObjectMother
     return game
   end
 
+  private
+  
   def self.create_full_map_from(partial_cave_map)
     original_rows = partial_cave_map.split("\n").map { |x| x.strip }
     rows = []

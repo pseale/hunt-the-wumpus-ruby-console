@@ -11,7 +11,6 @@ class Cave
       end
       @cave_rows << cave_row
     end
-
   end
 
   def [](row, col)

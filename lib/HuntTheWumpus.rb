@@ -21,6 +21,18 @@ class HuntTheWumpus
     apply_messages_for_location
   end
 
+  def status
+    StatusFormatter.format_status(@cave, @map, @messages, @scoreboard, @armed)
+  end
+
+  def final_status
+    StatusFormatter.format_final_status(@messages, @scoreboard)
+  end
+
+  def ongoing?
+    !@game_over
+  end
+
   def receive_command(command)
     @messages = []
 
@@ -40,6 +52,8 @@ class HuntTheWumpus
     apply_messages_for_location
   end
 
+  private
+  
   def apply_messages_for_location
     return if @game_over
     @messages << :there_is_a_foul_odor if @map.wumpus_nearby?
@@ -109,17 +123,5 @@ class HuntTheWumpus
         end
       end
     end
-  end
-
-  def status
-    StatusFormatter.format_status(@cave, @map, @messages, @scoreboard, @armed)
-  end
-
-  def final_status
-    StatusFormatter.format_final_status(@messages, @scoreboard)
-  end
-
-  def ongoing?
-    !@game_over
   end
 end
