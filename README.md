@@ -6,7 +6,7 @@ This is a console implementation of "Hunt the Wumpus", a simple roguelike game. 
 Full details of the problem (and similar solutions) can be found at http://www.reddit.com/r/dailyprogrammer/comments/21kqjq/4282014_challenge_154_hard_wumpus_cave_game/
 
 Goals
-=====
+-----
 
 * Get into the swing of things
 * Solve a fun problem
@@ -15,7 +15,7 @@ Goals
 * (failed) Explore test builders -- this failed because the problem was just too simple to use test builders. I could have shoehorned a test builder type setup into the cave generation (since cave generation had several complex scenarios), but the simplest way to generate caves is to draw them (which I did).
 
 Things I could and probably should improve, but won't
-==================================
+-----------------------------------------------------
 
 I'm done with this little sample project, but feel like I need to write out the list of things I'm aware could be improved, so that if you stumble upon this code and say to yourself "aha, this is how RSpec should be used"...maybe. But maybe also note the things I list below.
 
@@ -28,13 +28,13 @@ I'm done with this little sample project, but feel like I need to write out the 
 * I feel like I should figure out how everyone else (outside of Rails of course) includes files in Ruby, or if I should give up caring how, so long as it works. This is one of those things that either a) doesn't matter at all, or b) will secretly slow my program by a factor of 20.
 
 Things I am angry at
-====================
+--------------------
 
 * Guard and its limitations (and how no one seems to notice or care)
 * RSpec "expect" syntax, which I have made peace with, despite being an inferior user experience to the "should" syntax
 
 Specifcations pasted from RSpec output
-======================================
+--------------------------------------
 
 * Approaching a wumpus armed
  * does not tell us we were eaten
@@ -48,22 +48,22 @@ Specifcations pasted from RSpec output
 
 * HuntTheWumpus
  * Attempting to start a new game with a cave size that is too small
-  * errors out
+    * errors out
  * Attempting to start a new game with a cave size that is too large
-  * errors out
+    * errors out
  * Starting a new game of Hunt the Wumpus
-  * starts the game
+    * starts the game
  * Starting a game with a specific cave size
-  * Creates a cave of that size
+    * Creates a cave of that size
 
 * Displaying the game status
  * displays a cave
  * has the player character somewhere in the cave
  * At the beginning of the game
-  * is completely unexplored
+    * is completely unexplored
 
 * Entering the cave immediately next to a wumpus
- * should indicate there is a foul stench in the air
+   * should indicate there is a foul stench in the air
 
 * Falling into a pitfall
  * tells us we fell into a pitfall
@@ -71,12 +71,12 @@ Specifcations pasted from RSpec output
 
 * CaveGenerator
  * Creating a random cave
-  * has 1 entrance
-  * has weapons rooms with 15% chance
-  * has gold rooms with 15% chance
-  * has wumpus rooms with 15% chance
-  * has pitfall traps with 5% chance
-  * has exactly the right number of rooms
+    * has 1 entrance
+    * has weapons rooms with 15% chance
+    * has gold rooms with 15% chance
+    * has wumpus rooms with 15% chance
+    * has pitfall traps with 5% chance
+    * has exactly the right number of rooms
 
 * Leaving a slain wumpus
  * shows the room with the slain wumpus as empty now
