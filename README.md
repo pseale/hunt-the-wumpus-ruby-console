@@ -10,28 +10,29 @@ Goals
 
 * Get into the swing of things
 * Solve a fun problem
-* Get guard (the fully automated test/spec runner) working
-* Explore "as large as possible" spec writing, i.e. these aren't "unit" tests.
-* (failed) Explore test builders -- this failed because the problem was just too simple to use test builders. I could have shoehorned a test builder type setup into the cave generation (since cave generation had several complex scenarios), but the simplest way to generate caves is to draw them (which I did).
+* Get guard (the fully automated test&spec runner) working
+* Explore "as large as possible" spec writing, i.e. write functional tests, not "unit" tests.
+* (failed) Explore test builders. This failed because the problem was **too simple** to use test builders. I could have shoehorned a test builder type setup into the cave generation (since cave generation had several complex scenarios), but the simplest way to generate caves is to draw them (which I did). I used a simple "Object Mother" instead.
 
-Things I could and probably should improve, but won't
------------------------------------------------------
+Things I could  improve, but won't
+----------------------------------
 
-I'm done with this little sample project, but feel like I need to write out the list of things I'm aware could be improved, so that if you stumble upon this code and say to yourself "aha, this is how RSpec should be used"...maybe. But maybe also note the things I list below.
+I'm done with this little sample project, but feel like I need to write out the list of things I'm aware could be improved, so that if you don't get the wrong idea. If you stumble upon this code and say to yourself "aha, this is how RSpec should be used"...maybe. I think the spec suite is good, overall. **But**, maybe also note the things I list below, even I know that my test suite could be improved.
 
 * My RSpec specs should be updated to use the newer expect syntax.
 * RSpec "behaves like"/"shared examples" could have been used, and I need to try them out.
 * RSpec "Contexts" should be used, and possibly also "let" blocks, though I am not too sure about the "let" blocks being useful for my non-unit, wide-grain specs.
-* My "message passing" of a command from the UI, and a "message" of sorts back to the client, seemed halfhearted and awkward. The most awkward part of this is inside HuntTheWumpus.rb where the command calls a series of methods, each of which may (or may not) append results to @messages, which eventually makes its way back to the client. My "should be immutable" nose is itching.
-* "Adding" two Locations objects together for movement feels like I'm cheating. But I only use it once, so I don't feel so bad.
+* My "message passing" of a command from the UI, and a "message" of sorts back to the client, seemed halfhearted and awkward. The most awkward part of this is inside HuntTheWumpus.rb where the command calls a series of methods, each of which may (or may not) append results to @messages, which eventually makes its way back to the client. Just be aware that I'm not happy with the way @messages is used, and could improve it with time.
+* "Adding" two Locations objects together to calculate movement feels like I'm cheating. But I only calculate movement once in the entire codebase, so I don't feel so bad.
 * Either everyone else should be using "OpenStruct" more often to quickly make objects, or I should be using "OpenStruct" less. Because I use "OpenStruct" quite a lot.
-* I feel like I should figure out how everyone else (outside of Rails of course) includes files in Ruby, or if I should give up caring how, so long as it works. This is one of those things that either a) doesn't matter at all, or b) will secretly slow my program by a factor of 20.
+* I feel like I should figure out how everyone else (outside of Rails of course) includes files in Ruby, or if I should give up caring how, so long as it works. In the project I use a `require_all` gem to require the entire lib folder when running specs, and I use `require_relative` inconsistently within files within the lib folder itself. This is one of those things that either a) doesn't matter at all, or b) will secretly slow my program by a factor of 20.
+* Upon re-reading my specs, it appears I left in some typos in my specs, as well as used the word "should" inside of the specs themselves. Using the word "should" in a spec is not a big deal, but I should be consistent, either 100% or 0%.
 
 Things I am angry at
 --------------------
 
 * Guard and its limitations (and how no one seems to notice or care)
-* RSpec "expect" syntax, which I have made peace with, despite being an inferior user experience to the "should" syntax
+* RSpec "expect" syntax, which I have made peace with, despite being an inferior end-user experience to the "should" syntax
 
 Specifcations pasted from RSpec output
 --------------------------------------
