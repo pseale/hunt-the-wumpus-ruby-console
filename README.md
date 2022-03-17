@@ -37,123 +37,123 @@ Things I am angry at
 Specifcations pasted from RSpec output
 --------------------------------------
 
-* Approaching a wumpus armed
- * does not tell us we were eaten
- * tells us slew a wumpus
- * awards us points for slaying a wumpus
- * does not tell us the game is over
+Approaching a wumpus armed
+* does not tell us we were eaten
+* tells us slew a wumpus
+* awards us points for slaying a wumpus
+* does not tell us the game is over
 
-* Approaching a wumpus unarmed
- * tells us we were eaten by a wumpus
- * tells us the game is over
+Approaching a wumpus unarmed
+* tells us we were eaten by a wumpus
+* tells us the game is over
 
-* HuntTheWumpus
- * Attempting to start a new game with a cave size that is too small
-    * errors out
- * Attempting to start a new game with a cave size that is too large
-    * errors out
- * Starting a new game of Hunt the Wumpus
-    * starts the game
- * Starting a game with a specific cave size
-    * Creates a cave of that size
+Attempting to start a new game with a cave size that is too small
+* errors out
 
-* Displaying the game status
- * displays a cave
- * has the player character somewhere in the cave
- * At the beginning of the game
-    * is completely unexplored
+Attempting to start a new game with a cave size that is too large
+* errors out
 
-* Entering the cave immediately next to a wumpus
-   * should indicate there is a foul stench in the air
+Starting a new game of Hunt the Wumpus
+* starts the game
 
-* Falling into a pitfall
- * tells us we fell into a pitfall
- * tells us the game is over
+Starting a game with a specific cave size
+* Creates a cave of that size
 
-* CaveGenerator
- * Creating a random cave
-    * has 1 entrance
-    * has weapons rooms with 15% chance
-    * has gold rooms with 15% chance
-    * has wumpus rooms with 15% chance
-    * has pitfall traps with 5% chance
-    * has exactly the right number of rooms
+Displaying the game status
+   * displays a cave
+   * has the player character somewhere in the cave
+   * At the beginning of the game
+      * is completely unexplored
 
-* Leaving a slain wumpus
- * shows the room with the slain wumpus as empty now
+Entering the cave immediately next to a wumpus
+* should indicate there is a foul stench in the air
 
-* Attempting to loot an empty room
- * should tell you you failed to loot
- * should not award any extra points
+Falling into a pitfall
+* tells us we fell into a pitfall
+* tells us the game is over
 
+Creating a random cave
+* has 1 entrance
+* has weapons rooms with 15% chance
+* has gold rooms with 15% chance
+* has wumpus rooms with 15% chance
+* has pitfall traps with 5% chance
+* has exactly the right number of rooms
+
+Leaving a slain wumpus
+* shows the room with the slain wumpus as empty now
+
+Attempting to loot an empty room
+* should tell you you failed to loot
+* should not award any extra points
 * Attempting to loot the cave entrance
- * should tell you you failed to loot
- * should not award any extra points
+* should tell you you failed to loot
+* should not award any extra points
 
-* Looting gold
- * awards 5 points
+Looting gold
+* awards 5 points
 
-* Moving away from a looted room
- * shows the looted room as empty
+Moving away from a looted room
+* shows the looted room as empty
 
-* Looting a weapon when unarmed
- * tells you you pick up the weapon
- * arms you with the weapon
- * awards 5 points
- * changes any weapon rooms to gold rooms
+Looting a weapon when unarmed
+* tells you you pick up the weapon
+* arms you with the weapon
+* awards 5 points
+* changes any weapon rooms to gold rooms
 
-* Moving near a pitfall
- * does not tell us there is a foul stench in the air
- * tells us there is a howling wind
+Moving near a pitfall
+* does not tell us there is a foul stench in the air
+* tells us there is a howling wind
 
-* Moving near a wumpus
- * does not tell us there is a howling wind
- * tells us there is a foul odor
+Moving near a wumpus
+* does not tell us there is a howling wind
+* tells us there is a foul odor
 
-* Moving the player north
- * moves the player one spot to the north
+Moving the player north
+* moves the player one spot to the north
 
-* Moving the player south
- * moves the player one spot to the south
+Moving the player south
+* moves the player one spot to the south
 
-* Moving the player west
- * moves the player one spot to the west
+Moving the player west
+* moves the player one spot to the west
 
-* Moving the player east
- * moves the player one spot to the east
+Moving the player east
+* moves the player one spot to the east
 
-* Moving the player
- * moves the player to the new room
- * reveals the contents of the previous room
- * tells you you moved
+Moving the player
+* moves the player to the new room
+* reveals the contents of the previous room
+* tells you you moved
 
-* Attempting to move into a wall
- * does not move the player
- * tells us we hit a wall
- * doesn't tell us we moved
- * does not award us points
+Attempting to move into a wall
+* does not move the player
+* tells us we hit a wall
+* doesn't tell us we moved
+* does not award us points
 
-* Moving the player to a previously explored room
- * does not award any extra points
+Moving the player to a previously explored room
+* does not award any extra points
 
-* Moving the player into a room with gold
- * tells you you moved
- * tells you there is gold in this room
- * does not award us points
+Moving the player into a room with gold
+* tells you you moved
+* tells you there is gold in this room
+* does not award us points
 
-* Moving the player into a room with a weapon
- * tells you you moved
- * tells you there is a weapon in this room
- * does not award us points
+Moving the player into a room with a weapon
+* tells you you moved
+* tells you there is a weapon in this room
+* does not award us points
 
-* Moving the player to an empty room
- * awards 1 point for exploring a new, empty room
+Moving the player to an empty room
+* awards 1 point for exploring a new, empty room
 
-* Receiving bad commands from the client
- * errors out
+Receiving bad commands from the client
+* errors out
 
-* Running out of the cave to safety
- * tells us the game is over
- * tells us we escape the cave
- * tells us our final score
+Running out of the cave to safety
+* tells us the game is over
+* tells us we escape the cave
+* tells us our final score
 
