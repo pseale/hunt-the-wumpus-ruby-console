@@ -34,7 +34,7 @@ Things I am angry at
 * Guard and its limitations (and how no one seems to notice or care)
 * RSpec "expect" syntax, which I have made peace with, despite being an inferior end-user experience to the "should" syntax
 
-Specifcations pasted from RSpec output
+Specifications pasted from RSpec output
 --------------------------------------
 
 Approaching a wumpus armed
